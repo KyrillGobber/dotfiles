@@ -34,7 +34,6 @@ input {
 
 general {
     sensitivity=1 # for mouse cursor
-    main_mod=SUPER
 
     gaps_in=3
     gaps_out=2
@@ -74,6 +73,10 @@ gestures {
     workspace_swipe=yes
 }
 
+# some nice mouse binds
+bindm=SUPER,mouse:272,movewindow
+bindm=SUPER,mouse:273,resizewindow
+
 # example window rules
 # for windows named/classed as abc and xyz
 #windowrule=move 69 420,abc
@@ -82,7 +85,8 @@ gestures {
 #windowrule=float,abc
 #windowrule=pseudo,abc
 #windowrule=monitor 0,xyz
-windowrule=float,^(telegram)$
+windowrule=float,^(TelegramDesktop)$
+windowrule=size 800 600,^(TelegramDesktop)$
 windowrule=float,^(steam)$
 windowrule=float,^(thunar)$
 windowrule=size 800 600,^(thunar)$

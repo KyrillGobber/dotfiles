@@ -1,6 +1,5 @@
 {
     "layer": "top", // Waybar at top layer
-    "output": "DP-1",
     // "position": "bottom", // Waybar position (top|bottom|left|right)
     "height": 24, // Waybar height (to be removed for auto height)
     // "width": 1280, // Waybar width
@@ -11,7 +10,7 @@
     // Choose the order of the modules
     "modules-left": ["wlr/workspaces", "custom/waybar-mpris"],
     "modules-center": ["clock"],
-    "modules-right": ["tray", "pulseaudio", "custom/power"],
+    "modules-right": ["tray", "backlight", "pulseaudio","network", "battery", "custom/power"],
     // Modules configuration
      "wlr/workspaces": {
          "disable-scroll": true,
@@ -23,6 +22,16 @@
         // "icon-size": 21,
         "spacing": 10
     },
+    "backlight": {
+		"interval": 2,
+        "device": "intel_backlight",
+        "format": "{icon}",
+        "format-icons": ["", "", "", "", "", "", ""],
+		// Commands to execute on events
+        "on-scroll-up": "light -A 5%",
+        "on-scroll-down": "light -U 5%",
+        "smooth-scrolling-threshold": 1,
+    },
     "clock": {
         // "timezone": "Europe/Zurich",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
@@ -32,6 +41,34 @@
         "format-calendar": "<span color='#ecc6d9'><b>{}</b></span>",
         "format-calendar-weeks": "<span color='#99ffdd'><b>W{:%V}</b></span>",
         "format-calendar-weekdays": "<span color='#ffcc66'><b>{}</b></span>",
+    },
+    "battery": {
+        "states": {
+            // "good": 95,
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{capacity}% {icon}",
+        "format-charging": "{capacity}% ",
+        "format-plugged": "{capacity}% ",
+        "format-alt": "{time} {icon}",
+        // "format-good": "", // An empty format will hide the module
+        // "format-full": "",
+        "format-icons": ["", "", "", "", ""]
+    },
+    "battery#bat2": {
+        "bat": "BAT2"
+    },
+    "network": {
+		"interval": 5,
+        //"interface": "wlan*", // (Optional) To force the use of this interface, set it for netspeed to work
+        "format-wifi": "直 {essid}",
+        "format-ethernet": "",
+        "format-linked": "",
+        "format-disconnected": "睊",
+        "format-disabled": "睊",
+        "tooltip-format": " {ifname} via {gwaddr}",
+        "on-click": "[[ ! `pidof nm-connection-editor` ]] && nm-connection-editor || pkill nm-connection-e",
     },
     "pulseaudio": {
         // "scroll-step": 1, // %, can be a float
@@ -52,11 +89,6 @@
         },
         "on-click": "pavucontrol"
     },
-    "custom/power": {
-         "format": "襤",
-         "tooltip": false,
-         "on-click": "$HOME/.config/hypr/scripts/wlogout",
-    },
     "custom/waybar-mpris": {
     "return-type": "json",
     "exec": "waybar-mpris --position --autofocus",
@@ -67,9 +99,9 @@
         // "on-scroll-up": "waybar-mpris --send player-next",
         // "on-scroll-down": "waybar-mpris --send player-prev",
     // The options below will go to next/previous track on scroll
-         "on-scroll-down": "waybar-mpris --send next",
-         "on-scroll-up": "waybar-mpris --send prev",
+        "on-scroll-up": "waybar-mpris --send prev",
+        "on-scroll-down": "waybar-mpris --send next",
     "escape": true,
-    },
+}
 }
 

@@ -1,17 +1,18 @@
 * {
     /* `otf-font-awesome` is required to be installed for icons */
-    font-family: Cantarell;
+    font-family: Ubuntu Mono;
     font-size: 13px;;
 }
 
 window#waybar {
     background-color: rgba(21, 18, 16, 0.75);
+    border-radius: 10px;
     transition-property: background-color;
     transition-duration: .5s;
-    border-radius: 10px;
 }
 
 #window {
+    background-color: rgba(21, 18, 16, 0.);
     border-radius: 20px;
     margin-top: 8px;
     margin-left: 8px;
@@ -83,13 +84,11 @@ window#waybar {
 }
 
 #battery {
-    background-color: #ffffff;
-    color: #000000;
+    color: #FFFFFF;
 }
 
 #battery.charging, #battery.plugged {
-    color: #ffffff;
-    background-color: #26A65B;
+    color: #8FE07F;
 }
 
 @keyframes blink {
@@ -127,11 +126,9 @@ label:focus {
 }
 
 #backlight {
-    background-color: #90b1b1;
 }
 
 #network {
-    background-color: #2980b9;
 }
 
 #network.disconnected {
@@ -142,13 +139,18 @@ label:focus {
     color: #2a5c45;
 }
 
-#custom-power {
-        background-color: rgba(251, 250, 217, 0.5);
-        color: #20262C;
-        font-size: 16px;
-        border-radius: 8px;
-        margin: 6px 6px 6px 0px;
-        padding: 2px 8px 2px 8px;
+#custom-media {
+    background-color: #66cc99;
+    color: #2a5c45;
+    min-width: 100px;
+}
+
+#custom-media.custom-spotify {
+    background-color: #66cc99;
+}
+
+#custom-media.custom-vlc {
+    background-color: #ffa000;
 }
 
 #temperature {
