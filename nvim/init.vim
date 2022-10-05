@@ -1,4 +1,4 @@
-" Plugins will be downloaded under the specified directory.
+
 call plug#begin('~/.vim/plugged')
 
 " Themes
@@ -16,7 +16,7 @@ Plug 'preservim/nerdtree'
 
 " Web stuff:
 
-" coc for auto completion
+" coc for auto completion - TODO Switch to native lsp later: https://github.com/neovim/nvim-lspconfig/wiki/Comparison-to-other-LSP-ecosystems-(CoC,-vim-lsp,-etc.)
 " https://github.com/neoclide/coc.nvim
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
@@ -42,7 +42,7 @@ Plug 'folke/zen-mode.nvim'
 " Toggle comments
 " https://github.com/tpope/vim-commentary
 Plug 'tpope/vim-commentary'
-" Surround stuff like "", '', (), {} and so on
+" Surround stuff like '', (), {} and so on
 " https://github.com/tpope/vim-surround
 "Plug 'tpope/vim-surround'
 "
@@ -58,9 +58,9 @@ Plug 'sindrets/diffview.nvim'
 " https://github.com/nvim-telescope/telescope.nvim#getting-started
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
-
+Plug 'kyazdani42/nvim-web-devicons'
 " Vim Glow -> markdown preview
 " https://github.com/ellisonleao/glow.nvim
 Plug 'ellisonleao/glow.nvim'
@@ -111,7 +111,13 @@ hi tsxTypes guifg=#666666
 " General stuff ------------------------------
 
 let mapleader = " "
-nnoremap <leader>ne :Telescope file_browser<CR>
+
+" Telescope: Find files using Telescope command-line sugar.
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
 nnoremap <leader>p :Glow<CR>
 
 syntax enable
