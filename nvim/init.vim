@@ -6,71 +6,29 @@ Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 "Plug 'catppuccin/nvim', {'as': 'catppuccin'}
 "Plug 'joshdick/onedark.vim'
 
-" Treesitter
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-
-" Files
-" Nerdtre
-" https://github.com/Xuyuanp/nerdtree-git-plugin
-Plug 'preservim/nerdtree'
-
-" Web stuff:
-
-" coc for auto completion - TODO Switch to native lsp later?: https://github.com/neovim/nvim-lspconfig/wiki/Comparison-to-other-LSP-ecosystems-(CoC,-vim-lsp,-etc.)
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
-
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'pangloss/vim-javascript'
 Plug 'leafgarland/typescript-vim'
 Plug 'peitalin/vim-jsx-typescript'
-
-" TODO: Prettier
-" https://prettier.io/docs/en/vim.html
-" Plug 'sbdchd/neoformat'
-
-" Ident lines
 Plug 'Yggdroot/indentLine'
-
-" Zen mode stuff
-"Plug 'smithbm2316/centerpad.nvim' " Does work, but resets with NERDtree
-" Plug 'junegunn/goyo.vim' not good enough
-"Plug 'folke/zen-mode.nvim'
-
-" Toggle comments
 Plug 'tpope/vim-commentary'
-
-" Surround stuff like '', (), {} and so on
-"Plug 'tpope/vim-surround'
-
-"automatic closing of quotes, parenthesis, brackets, etc.
-Plug 'Raimondi/delimitMate'
-
-" git diff integration
-Plug 'airblade/vim-gitgutter'
-
-"git diff
+Plug 'Raimondi/delimitMate'			" automatic closing of quotes, parenthesis, brackets, etc.
+Plug 'airblade/vim-gitgutter'		" git diff integration on line numbers!
 Plug 'sindrets/diffview.nvim'
-
-" Telescope
-" https://github.com/nvim-telescope/telescope.nvim#getting-started
-Plug 'nvim-lua/popup.nvim'
-Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-lua/popup.nvim'			" Telescope dependency
+Plug 'nvim-lua/plenary.nvim'		" Telescope dependency
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
-Plug 'kyazdani42/nvim-web-devicons'
-
-Plug 'rmagatti/auto-session'
-Plug 'rmagatti/session-lens'
-
-" Vim Glow -> markdown preview
-Plug 'ellisonleao/glow.nvim'
+Plug 'kyazdani42/nvim-web-devicons'	" Icons in Telescope
+Plug 'rmagatti/auto-session'		" Save sessions
+Plug 'rmagatti/session-lens'		" Telescope session picker
+Plug 'preservim/nerdtree'
+Plug 'ellisonleao/glow.nvim' 		" Vim Glow -> markdown preview
 
 " cheat.sh
 " Use with <Leader>KK, <Leader>KP, <Leader>KR, <Leader>KC
-Plug 'dbeniamine/cheat.sh-vim'
-
-" List ends here. Plugins become visible to Vim after this call.
+" Plug 'dbeniamine/cheat.sh-vim'
 call plug#end()
 
 " Coc config from https://eliasjuremalm.com/blog/how-to-get-started-with-vim-for-web-development-in-2021
@@ -85,6 +43,9 @@ endif
 if isdirectory('./node_modules') && isdirectory('./node_modules/eslint')
   let g:coc_global_extensions += ['coc-eslint']
 endif
+
+" Coc prettier bind
+command! -nargs=0 Prettier :CocCommand prettier.forceFormatDocument
 
 " Typescript start ------------------------------
 " set filetypes as typescriptreact
@@ -156,6 +117,7 @@ nnoremap <leader>fg <cmd>Telescope live_grep hidden=true<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 nnoremap <leader>fs <cmd>Telescope session-lens search_session<cr>
+nnoremap <leader>fq <cmd>Telescope quickfix<cr>
 
 " Coc:::::::::::::::::::::::
 " GoTo code navigation.
@@ -194,6 +156,17 @@ nmap <leader>cl  <Plug>(coc-codelens-action)
 " Add `:OR` command for organize imports of the current buffer.
 command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.organizeImport')
 
+" Diff view
+nnoremap <leader>do <cmd>DiffviewOpen<cr>
+nnoremap <leader>dc <cmd>DiffviewClose<cr>
+
+" jump to the next function
+nnoremap <leader>j :call
+\ search('\(\(if\\|for\\|while\\|switch\\|catch\)\_s*\)\@64<!(\_[^)]*)\_[^;{}()]*\zs{', "w")<CR>
+" jump to the previous function
+nnoremap <leader>k :call
+\ search('\(\(if\\|for\\|while\\|switch\\|catch\)\_s*\)\@64<!(\_[^)]*)\_[^;{}()]*\zs{', "bw")<CR>
+
 " Lightline config with coc stuff
 let g:lightline = {
 \ 'colorscheme': 'wombat',
@@ -223,20 +196,3 @@ let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 let NERDTreeShowHidden=1
 " ---------------------------- NERDTree stuff
-
-function! TreesitterConfig()
-lua << EOF
-require'nvim-treesitter.configs'.setup {
-  highlight = {
-    enable = true,
-    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-    -- Using this option may slow down your editor, and you may see some duplicate highlights.
-    -- Instead of true it can also be a list of languages
-    additional_vim_regex_highlighting = false,
-  },
-}
-EOF
-endfunction
-
-call TreesitterConfig()
