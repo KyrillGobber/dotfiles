@@ -156,6 +156,29 @@ nmap <leader>cl  <Plug>(coc-codelens-action)
 " Add `:OR` command for organize imports of the current buffer.
 command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.organizeImport')
 
+
+function! TabeIfNotOpen(...)
+    let fname = a:1
+    let call = ''
+    if a:0 == 2
+	let fname = a:2
+	let call = a:1
+    endif
+    let bufnum=bufnr(expand(fname))
+    let winnum=bufwinnr(bufnum)
+    if winnum != -1
+	" Jump to existing split
+	exe winnum . "wincmd w"
+    else
+	" Make new split as usual
+	exe "tabe " . fname
+    endif
+    " Execute the cursor movement command
+    exe call
+endfunction
+
+command! -nargs=+ CocTabeIfNotOpen :call TabeIfNotOpen(<f-args>)
+
 " Diff view
 nnoremap <leader>do <cmd>DiffviewOpen<cr>
 nnoremap <leader>dc <cmd>DiffviewClose<cr>
