@@ -1,3 +1,8 @@
+"TODO:
+" Telescope method list in file
+" Bufferline with shortcuts
+"
+"
 call plug#begin('~/.vim/plugged')
 
 " Themes
@@ -11,6 +16,7 @@ Plug 'maxmellon/vim-jsx-pretty'
 Plug 'pangloss/vim-javascript'
 Plug 'leafgarland/typescript-vim'
 Plug 'peitalin/vim-jsx-typescript'
+" Plug 'sheerun/vim-polyglot'  		" Still testing this
 Plug 'Yggdroot/indentLine'
 Plug 'tpope/vim-commentary'
 Plug 'Raimondi/delimitMate'			" automatic closing of quotes, parenthesis, brackets, etc.
@@ -25,6 +31,7 @@ Plug 'rmagatti/auto-session'		" Save sessions
 Plug 'rmagatti/session-lens'		" Telescope session picker
 Plug 'preservim/nerdtree'
 Plug 'ellisonleao/glow.nvim' 		" Vim Glow -> markdown preview
+Plug 'mengelbrecht/lightline-bufferline'
 
 " cheat.sh
 " Use with <Leader>KK, <Leader>KP, <Leader>KR, <Leader>KC
@@ -46,6 +53,8 @@ endif
 
 " Coc prettier bind
 command! -nargs=0 Prettier :CocCommand prettier.forceFormatDocument
+" format code
+nmap <leader>cf  <Plug>(coc-format-selected)
 
 " Typescript start ------------------------------
 " set filetypes as typescriptreact
@@ -90,6 +99,13 @@ set ruler
 set updatetime=300
 set signcolumn=yes
 set noshowmode
+set noswapfile
+set showtabline=2
+set guioptions-=e
+set nocompatible
+set termguicolors
+set relativenumber
+
 
 " Autosave on focus loss
 :au FocusLost * :wa
@@ -105,11 +121,15 @@ vmap > >gv
 " ----------------------------- General stuff
 
 "  Binds ----------------------------------
-nnoremap <C-Tab> gt
-nnoremap <S-C-Tab> gT
-nnoremap <F4> :q<CR>
+nnoremap <C-Tab> :bnext<cr>
+nnoremap <S-C-Tab> :bNext<cr>
+nnoremap <F4> :bd<CR>
 nnoremap <leader>t <cmd>tabnew<cr>
 nnoremap <leader>p :Glow<CR>
+
+" Easy CAPS
+" inoremap <c-u> <ESC>viwUi
+" nnoremap <c-u> viwU<Esc>
 
 " Telescope: Find files using Telescope command-line sugar.
 nnoremap <leader>ff <cmd>Telescope find_files hidden=true<cr>
@@ -156,7 +176,7 @@ nmap <leader>cl  <Plug>(coc-codelens-action)
 " Add `:OR` command for organize imports of the current buffer.
 command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.organizeImport')
 
-
+" Coc jump command tab if not open -> not needed with buffers
 function! TabeIfNotOpen(...)
     let fname = a:1
     let call = ''
@@ -192,10 +212,20 @@ nnoremap <leader>k :call
 
 " Lightline config with coc stuff
 let g:lightline = {
-\ 'colorscheme': 'wombat',
+\ 'colorscheme': 'one',
 \ 'active': {
 \   'left': [ [ 'mode', 'paste' ],
 \             [ 'cocstatus', 'readonly', 'filename', 'modified' ] ]
+\ },
+\ 'tabline': {
+\   'left': [ ['buffers'] ],
+\   'right': [ ['close'] ]
+\ },
+\ 'component_expand': {
+\   'buffers': 'lightline#bufferline#buffers'
+\ },
+\ 'component_type': {
+\   'buffers': 'tabsel'
 \ },
 \ 'component_function': {
 \   'cocstatus': 'coc#status'
@@ -203,9 +233,8 @@ let g:lightline = {
 \ }
 " Use autocmd to force lightline update.
 autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
-" :::::::::::::::Coc
-"  ---------------------------------- Binds
 
+"  ---------------------------------- Binds
 " NERDTree stuff ----------------------------
 nnoremap <f1> :NERDTreeToggle<CR>
 nnoremap <F2> :NERDTreeFind<CR>
