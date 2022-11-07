@@ -1,31 +1,50 @@
 "TODO:
 " Telescope method list in file
-" Bufferline with shortcuts
-"
-"
+" onedark lightline Theme
+" telescope git stuff!
+" git blame?
+
+let mapleader = " "
+
+syntax enable
+set number
+set shiftwidth=4
+set tabstop=4
+set ignorecase
+set smartindent
+set cursorline
+set ruler
+set updatetime=300
+set signcolumn=yes
+set noshowmode
+set noswapfile
+set showtabline=2
+set guioptions-=e
+set nocompatible
+set termguicolors
+set relativenumber
+
 call plug#begin('~/.vim/plugged')
 
 " Themes
 Plug 'itchyny/lightline.vim'
-Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
-"Plug 'catppuccin/nvim', {'as': 'catppuccin'}
-"Plug 'joshdick/onedark.vim'
+"Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
+Plug 'joshdick/onedark.vim'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'maxmellon/vim-jsx-pretty'
-Plug 'pangloss/vim-javascript'
-Plug 'leafgarland/typescript-vim'
-Plug 'peitalin/vim-jsx-typescript'
-" Plug 'sheerun/vim-polyglot'  		" Still testing this
+" Plug 'peitalin/vim-jsx-typescript'
+Plug 'sheerun/vim-polyglot'  		" Still testing this
 Plug 'Yggdroot/indentLine'
 Plug 'tpope/vim-commentary'
 Plug 'Raimondi/delimitMate'			" automatic closing of quotes, parenthesis, brackets, etc.
-Plug 'airblade/vim-gitgutter'		" git diff integration on line numbers!
+"Plug 'airblade/vim-gitgutter'		" git diff integration on line numbers!
+Plug 'mhinz/vim-signify'            " even better than gitgutter?
 Plug 'sindrets/diffview.nvim'
 Plug 'nvim-lua/popup.nvim'			" Telescope dependency
 Plug 'nvim-lua/plenary.nvim'		" Telescope dependency
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+Plug 'fannheyward/telescope-coc.nvim'
 Plug 'kyazdani42/nvim-web-devicons'	" Icons in Telescope
 Plug 'rmagatti/auto-session'		" Save sessions
 Plug 'rmagatti/session-lens'		" Telescope session picker
@@ -56,60 +75,42 @@ command! -nargs=0 Prettier :CocCommand prettier.forceFormatDocument
 " format code
 nmap <leader>cf  <Plug>(coc-format-selected)
 
+
+
 " Typescript start ------------------------------
+
+let g:yats_host_keyword = 1
 " set filetypes as typescriptreact
-autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescriptreact
+" autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescriptreact
 
-" dark red
-hi tsxTagName guifg=#E06C75
-hi tsxComponentName guifg=#E06C75
-hi tsxCloseComponentName guifg=#E06C75
+" " dark red
+" hi tsxTagName guifg=#E06C75
+" hi tsxComponentName guifg=#E06C75
+" hi tsxCloseComponentName guifg=#E06C75
 
-" orange
-hi tsxCloseString guifg=#F99575
-hi tsxCloseTag guifg=#F99575
-hi tsxCloseTagName guifg=#F99575
-hi tsxAttributeBraces guifg=#F99575
-hi tsxEqual guifg=#F99575
+" " orange
+" hi tsxCloseString guifg=#F99575
+" hi tsxCloseTag guifg=#F99575
+" hi tsxCloseTagName guifg=#F99575
+" hi tsxAttributeBraces guifg=#F99575
+" hi tsxEqual guifg=#F99575
 
-" yellow
-hi tsxAttrib guifg=#F8BD7F cterm=italic
+" " yellow
+" hi tsxAttrib guifg=#F8BD7F cterm=italic
 
-" light-grey
-hi tsxTypeBraces guifg=#999999
-" dark-grey
-hi tsxTypes guifg=#666666
+" " light-grey
+" hi tsxTypeBraces guifg=#999999
+" " dark-grey
+" hi tsxTypes guifg=#666666
 
 "------------------------------ Typescript 
 
 
 " General stuff ------------------------------
-
-let mapleader = " "
-
-
-syntax enable
-set number
-set shiftwidth=4
-set tabstop=4
-set ignorecase
-set smartindent
-set cursorline
-set ruler
-set updatetime=300
-set signcolumn=yes
-set noshowmode
-set noswapfile
-set showtabline=2
-set guioptions-=e
-set nocompatible
-set termguicolors
-set relativenumber
-
-
 " Autosave on focus loss
 :au FocusLost * :wa
-colorscheme tokyonight-night
+colorscheme onedark
+"colorscheme tokyonight-night
 " colorscheme tokyonight-storm
 " colorscheme tokyonight-day
 " Yank and paste with the system clipboard
@@ -124,8 +125,8 @@ vmap > >gv
 nnoremap <C-Tab> :bnext<cr>
 nnoremap <S-C-Tab> :bNext<cr>
 nnoremap <F4> :bd<CR>
-nnoremap <leader>t <cmd>tabnew<cr>
 nnoremap <leader>p :Glow<CR>
+nnoremap <leader>ss :source ~/.config/nvim/init.vim<cr>
 
 " Easy CAPS
 " inoremap <c-u> <ESC>viwUi
@@ -138,9 +139,16 @@ nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 nnoremap <leader>fs <cmd>Telescope session-lens search_session<cr>
 nnoremap <leader>fq <cmd>Telescope quickfix<cr>
-
+nnoremap <leader>d :CocList diagnostics<cr>
+nnoremap <leader>ds :CocList -I symbols<cr>
+nmap <silent> ca <cmd>Telescope coc line_code_actions<cr>
+nmap <silent> cs <cmd>Telescope coc document_symbols<cr>
+nmap <silent> cd <cmd>Telescope coc diagnostics<cr>
+nmap <silent> cc <cmd>Telescope coc commands<cr>
 " Coc:::::::::::::::::::::::
 " GoTo code navigation.
+nmap <silent> td <cmd>Telescope coc definitions<cr>
+nmap <silent> tr <cmd>Telescope coc references<cr>
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
@@ -248,3 +256,16 @@ let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 let NERDTreeShowHidden=1
 " ---------------------------- NERDTree stuff
+
+" Coc in telescope!
+lua << EOF
+require("telescope").setup({
+  extensions = {
+    coc = {
+        theme = 'ivy',
+        prefer_locations = true, -- always use Telescope locations to preview definitions/declarations/implementations etc
+    }
+  },
+})
+require('telescope').load_extension('coc')
+EOF
