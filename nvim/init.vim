@@ -37,6 +37,7 @@ Plug 'sheerun/vim-polyglot'  		" Still testing this
 Plug 'Yggdroot/indentLine'
 Plug 'tpope/vim-commentary'
 Plug 'Raimondi/delimitMate'			" automatic closing of quotes, parenthesis, brackets, etc.
+Plug 'tpope/vim-fugitive'
 "Plug 'airblade/vim-gitgutter'		" git diff integration on line numbers!
 Plug 'mhinz/vim-signify'            " even better than gitgutter?
 Plug 'sindrets/diffview.nvim'
